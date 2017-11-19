@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <style>
+        html, body {
+            height: 100%;
+            text-align: center;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #content {
+            flex: 1 0 auto;
+        }
+
+        .button {
+            background-color: #555555;
+            color: white;
+            border-radius: 4px;
+            font-size: 20px;
+            font-family: "Avantgarde", sans-serif;
+            width: 200px;
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            margin: 4px 2px;
+            -webkit-transition-duration: 0.4s;
+            transition-duration: 0.4s;
+        }
+
+        #b1 {
+            background-color: rgba(229,229,229,0.7);
+            color: #555555;
+            border: 2px solid #555555;
+        }
+
+            #b1:hover {
+                background-color: #555555;
+                color: white;
+            }
+
+        #b2 {
+            background-color: rgba(229,229,229,0.7);
+            color: #555555;
+            border: 2px solid #555555;
+        }
+
+            #b2:hover {
+                background-color: #555555;
+                color: white;
+            }
+
+        #b3 {
+            background-color: rgba(229,229,229,0.7);
+            color: #555555;
+            border: 2px solid #555555;
+        }
+
+            #b3:hover {
+                background-color: #555555;
+                color: white;
+            }
+
+        #b4 {
+            background-color: rgba(229,229,229,0.7);
+            color: #555555;
+            border: 2px solid #555555;
+        }
+
+            #b4:hover {
+                background-color: #555555;
+                color: white;
+            }
+
+        #footer {
+            font-family: "Avantgarde", sans-serif;
+            color: white;
+        }
+    </style>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <br />
+    <div id="content">
+        <div class="navbar navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("Movie Rent Site", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    Movie
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a>@Html.ActionLink("Movie List", "Index", "Movies")</a></li>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                    <li><a>@Html.ActionLink("Add New Movie", "Create", "Movies")</a></li>
+
+                                    }
+                                    else
+                                    {
+                                    <li><a>@Html.ActionLink("My Movies", "MyMovies", "Rentals")</a></li>
+                                    }
+                                </ul>
+                            </li>
+                        }
+
+
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            if (User.IsInRole("Admin"))
+                            {
+                                <li>@Html.ActionLink("Rentals", "Index", "Rentals")</li>
+                            }
+                            else
+                            {
+                                <li>@Html.ActionLink("Rent", "RentPage", "Rentals")</li>
+                            }
+                        }
+
+                    </ul>
+
+                    @Html.Partial("_LoginPartial")
+                </div>
+            </div>
+        </div>
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
+
+            
+
+            <p id="footer">&copy; @DateTime.Now.Year - Israel Malasa - Movie Rental Site</p>
+
+
+        </div>
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+    </div>
+</body>
+</html>

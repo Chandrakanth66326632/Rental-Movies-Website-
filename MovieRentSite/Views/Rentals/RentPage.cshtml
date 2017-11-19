@@ -1,0 +1,148 @@
+﻿@model IEnumerable<MovieRentSite.Models.Movie>
+
+
+
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>New</title>
+    <style>
+        #movie {
+            margin-left: 37%;
+            margin-bottom: 9%;
+            margin-top: 4%;
+        }
+        
+        
+        body {
+            background-image: url("../Images/154.jpg");
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        #idcustomer, #idmovie {
+            font-family: "Avantgarde", sans-serif;
+            width: 15%;
+            padding: 16px 20px;
+            outline: none;
+            border: none;
+            font-size: 20px;
+            border-radius: 4px;
+            background-color: #e5e5e5;
+        }
+
+        #sub {
+            font-family: "Avantgarde", sans-serif;
+            font-size: 20px;
+            cursor: pointer;
+            outline: none;
+            color: #fff;
+            background-color: #1F30B7;
+            border: none;
+            border-radius: 6px;
+            box-shadow: 0 5px #7480e0;
+            padding: 16px 20px;
+            margin-bottom : 7%;
+
+        }
+
+            #sub:hover {
+                background-color: #1A2998;
+                box-shadow: 0 5px #616cc6;
+                cursor: pointer;
+            }
+
+            #sub:active {
+                background-color: #121D6C;
+                box-shadow: 0 3px #616cc6;
+                transform: translateY(4px);
+            }
+
+        label {
+            font-family: "Avantgarde", sans-serif;
+            font-size: 20px;
+            color: white;
+        }
+
+        h1 {
+            font-family: "Avantgarde", sans-serif;
+            font-size: 40px;
+            color: white;
+        }
+
+        div {
+            text-align: center;
+        }
+
+        #notice {
+            font-family: "Avantgarde", sans-serif;
+            font-size: 25px;
+            position: relative;
+            bottom: 30%;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.64);
+            border-radius: 4px;
+        }
+        option{
+            text-align:center;
+        }
+    </style>
+</head>
+
+
+<div>
+    <h1>Rent Your Movie</h1>
+
+
+
+    <label for="sel1">Select Movie :</label>
+    <select id="movie" class="form-control">
+        @foreach (var item in Model)
+        {
+            <option value="@item.Id">@item.Name</option>
+        }
+    </select>
+
+    <button id="sub">Rent A Movie</button>
+
+    <div>
+        @Html.ActionLink("My Movies", "Index")
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")   
+    
+
+<script>
+
+
+    
+        $(document).ready(function () {
+            $("#sub").click(function () {
+                $.post("/Rentals/Create/",
+                    {
+                        MovieId: $("#movie").val(),
+                        Id : 0,     
+                        CustomerId : 0
+                    },
+                    function (data, status) {
+                        if (status == "success")
+                        {
+                            window.location.replace("http://localhost:50499/Rentals/MyMovies");
+                        }
+                    }
+                );
+            });
+        });
+</script>
+
+
+
+    }
+   
+

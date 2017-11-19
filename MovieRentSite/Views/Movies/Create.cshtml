@@ -1,0 +1,190 @@
+﻿@model MovieRentSite.Models.Movie
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Add New Movie</title>
+    <style>
+        body {
+            background-image: url("../Images/154.jpg");
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        #movie {
+            font-family: "Avantgarde", sans-serif;
+            padding: 16px 20px;
+            outline: none;
+            border: none;
+            font-size: 20px;
+            border-radius: 4px;
+            background-color: #e5e5e5;
+            margin-left: 37%;
+        }
+
+        select {
+            font-family: "Avantgarde", sans-serif;
+            padding: 16px 20px;
+            outline: none;
+            border: none;
+            font-size: 20px;
+            border-radius: 4px;
+            background-color: #e5e5e5;
+        }
+        #category{
+            margin-left:37%;
+
+        } #sub {
+            font-family: "Avantgarde", sans-serif;
+            font-size: 20px;
+            cursor: pointer;
+            outline: none;
+            color: #fff;
+            background-color: #1F30B7;
+            border: none;
+            border-radius: 6px;
+            box-shadow: 0 5px #7480e0;
+            padding: 16px 20px;
+        }
+
+            #sub:hover {
+                background-color: #1A2998;
+                box-shadow: 0 5px #616cc6;
+                cursor: pointer;
+            }
+
+            #sub:active {
+                background-color: #121D6C;
+                box-shadow: 0 3px #616cc6;
+                transform: translateY(4px);
+            }
+
+        h1 {
+            font-family: "Avantgarde", sans-serif;
+            font-size: 40px;
+            color: white;
+        }
+
+        label {
+            font-family: "Avantgarde", sans-serif;
+            font-size: 20px;
+            color: white;
+        }
+
+        #valid {
+            color: white;
+            visibility : hidden;
+        }
+
+        div {
+            text-align: center;
+        }
+
+        form-control {
+            margin-right: auto;
+            margin-left: auto;
+            align-items : center;
+        }
+        
+    </style>
+</head>
+
+    <h1>Add New Movie To Library</h1><br />
+
+    <form id="AddMovieForm" >
+    <label for="movie">Movie Name : </label><br /><br/>
+    <input required class="form-control"  id="movie" type="text">
+        <br /><br /><label for="category">Category : </label><br /><br />
+        <select  class="form-control" required   id="category" >
+            <option disabled selected></option>
+            <option>Action</option>
+            <option>Comedy</option>
+            <option>Family</option>
+            <option>Romance</option>
+        </select> <br /><br />
+      <button id="sub">Add Movie</button>
+    </form><br /><br />
+
+    <span  id="valid">
+
+        <span id="submitstatus"></span>
+    </span>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function () {
+            var StatusData;
+            $("#AddMovieForm").validate({
+                errorPlacement: function (label, element) {
+                    label.addClass('alert');
+                    label.insertAfter(element);
+                },
+                wrapper: 'span',
+      rules :
+            {
+            movie :{
+                    required : true 
+            } ,
+            category : {
+                    required : true
+            }},
+            messages : {
+            movie : "Movie input is required",
+            category : "Category input is required",
+        }
+          });
+        $("#sub").click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '/Movies/Create/',
+                data: {
+                    'Id': 0,
+                    'Name': $("#movie").val(),
+                    'Category': $("#category").val()
+                },
+                async: false,
+                dataType: 'text',
+                complete: function (data) {
+                    alert(JSON.stringify(data.responseText));
+                    
+                    StatusData = JSON.parse(data.responseText);
+                    console.log(StatusData);
+                    console.log(StatusData.Status);
+                    alert(StatusData.Status);
+                    if (StatusData.IsValid) {
+                        alert(StatusData.Status);
+                        $("#submitstatus").text(StatusData.Status);
+                        $("#valid").show();
+                        $("#valid").removeClass("alert alert-danger");
+                        $("#valid").addClass("alert alert-success");
+                    }
+                    else {
+                        $("#submitstatus").text(StatusData.Status);
+                        $("#valid").show();
+                        $("#valid").removeClass("alert alert-success");
+                        $("#valid").addClass("alert alert-danger");
+                    }
+
+                    
+                }     
+        });
+
+        });
+        });
+        
+    
+
+</script>
+}

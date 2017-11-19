@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <title>Welcome to Our Movie Home Page</title>
+    <style>
+        body {
+            background-image: url("../Images/151105_em_popcorntime.jpg");
+            background-size: cover;
+        }
+
+        h1 {
+            color: rgba(253,226,67,0.5);
+            font-family: "Avantgarde", sans-serif;
+            font-size: 60px;
+        }
+
+        #HeadLine {
+            font-family: "Avantgarde", sans-serif;
+            position: relative;
+            height: 50%;
+            width: 50%;
+            border-radius: 4px;
+            background: rgba(0, 0, 0, 0.70);
+            left: 25%;
+            color: white;
+            font-size: 20px;
+        }
+        #RegisterButton {
+            background-color: #e5e5e5;
+            color: #555555;
+            border: 2px solid #fde243;
+            margin-top : 80px;
+        }
+
+            #RegisterButton:hover {
+                background-color: #fde243;
+                color: white;
+            }
+    </style>
+</head>
+<body>
+
+    <div id="HeadLine">
+        <h1>Welcome to "Israel's Movie Rental Store" Website</h1>
+        <span>Here we promise you the best movie collection </span>
+    </div>
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <a class="button" id="RegisterButton" href="/Account/Register">Join us as a new Customer</a>
+
+    }
+
+</body>
+</html>
